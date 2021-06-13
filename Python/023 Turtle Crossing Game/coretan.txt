@@ -1,0 +1,17 @@
+1. membuat jalan 
+2. membuat mobil lewat
+   * membuat mobil lewat secara random
+   * acak warna mobil
+   * acak kecepatan mobil
+3. membuat kura2
+   * posisi kura-kura di tengah
+   * apabila sampai di atas, akan mengulangi lagi dari bawah
+   * score bertambah
+4. mendeteksi tabrakan kura2 dengan mobil
+   * apabila kura2 ditabrak mobil tulis "game over, your score ..."
+5. ingin main lagi ?
+
+
+algoritma mobil :
+1. buat mobil, goto(x_random, y_random)
+2. maju 10
