@@ -3,6 +3,11 @@ import datetime as dt
 import requests
 from twilio.rest import Client
 
+TWILIO_AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN")
+TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID")
+STOCK_API_KEY = os.environ.get("STOCK_API_KEY")
+NEWS_API_KEY = os.environ.get("NEWS_API_KEY")
+
 
 # Date ------------------------------------------------------------------------
 class Date:
@@ -24,7 +29,7 @@ class Stock:
         self.PARAMS = {
             "function": "TIME_SERIES_DAILY",
             "symbol": stock,
-            "apikey": "E1199E59XRPMW66M",
+            "apikey": STOCK_API_KEY,
         }
         self.response = requests.get(url="https://www.alphavantage.co/query?", params=self.PARAMS)
         self.response.raise_for_status()
@@ -41,7 +46,7 @@ def get_news(company_name, today, yesterday):
         "from": yesterday,
         "to": today,
         "sortBy": "popularity",
-        "apiKey": "4952848596204662828579c3de1fd423",
+        "apiKey": NEWS_API_KEY,
     }
     response = requests.get(url="https://newsapi.org/v2/everything?", params=PARAMS)
     response.raise_for_status()
@@ -55,14 +60,14 @@ def get_news(company_name, today, yesterday):
 
 # Send SMS --------------------------------------------------------------------
 def send_sms(message: str):
-    account_sid = os.environ.get("TWILIO_ACCOUNT_SID")
-    auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
+    account_sid = TWILIO_ACCOUNT_SID
+    auth_token = TWILIO_AUTH_TOKEN
     client = Client(account_sid, auth_token)
     message = client.messages \
                     .create(
                         body=message,
-                        from_='+14804053941',
-                        to='+6287837123646'
+                        from_='+123456789', # change number according twilio account
+                        to='+987654321' # verified destination number
                     )
 
     print(message.status)
@@ -70,8 +75,6 @@ def send_sms(message: str):
 
 # Main Program ----------------------------------------------------------------
 def main():
-    # STOCK_API_KEY = "E1199E59XRPMW66M"
-    # NEWS_API_KEY = "4952848596204662828579c3de1fd423"
     STOCK = "TSLA"
     COMPANY_NAME = "Tesla Inc"
 
